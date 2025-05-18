@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "MEAN Stack Technical Test API",
-    "description": "API for user management, authentication, and article management with JWT and role-based access control.",
+    "description": "API for user management, authentication, article management, and real-time comments with JWT and role-based access control.",
     "version": "1.0.0"
   },
   "servers": [
@@ -191,6 +191,43 @@
           "500": { "description": "Server error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
         }
       }
+    },
+    "/api/comments/{articleId}": {
+      "post": {
+        "summary": "Create a comment on an article",
+        "tags": ["Comments"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "articleId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Article ID" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CommentRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Comment created successfully", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Comment" } } } },
+          "400": { "description": "Invalid input or article ID", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "401": { "description": "No token provided or invalid token", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "404": { "description": "Article or parent comment not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "500": { "description": "Server error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
+        }
+      },
+      "get": {
+        "summary": "Get comments for an article",
+        "tags": ["Comments"],
+        "parameters": [
+          { "name": "articleId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Article ID" }
+        ],
+        "responses": {
+          "200": { "description": "List of comments", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Comment" } } } } },
+          "400": { "description": "Invalid article ID", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "500": { "description": "Server error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
+        }
+      }
     }
   },
   "components": {
@@ -247,10 +284,31 @@
           "updatedAt": { "type": "string", "format": "date-time", "example": "2025-05-18T12:54:00Z" }
         }
       },
+      "CommentRequest": {
+        "type": "object",
+        "properties": {
+          "content": { "type": "string", "example": "Great article!" },
+          "parentComment": { "type": "string", "example": "507f1f77bcf86cd799439013", "nullable": true }
+        },
+        "required": ["content"]
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string", "example": "507f1f77bcf86cd799439013" },
+          "content": { "type": "string", "example": "Great article!" },
+          "article": { "type": "string", "example": "507f1f77bcf86cd799439012" },
+          "author": { "$ref": "#/components/schemas/User" },
+          "parentComment": { "type": "string", "example": "507f1f77bcf86cd799439014", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time", "example": "2025-05-18T12:54:00Z" },
+          "updatedAt": { "type": "string", "format": "date-time", "example": "2025-05-18T12:54:00Z" }
+        }
+      },
       "ErrorResponse": {
         "type": "object",
         "properties": {
-          "message": { "type": "string", "example": "Invalid credentials" }
+          "message": { "type": "string", "example": "Invalid credentials" },
+          "errors": { "type": "array", "items": { "type": "object", "properties": { "msg": { "type": "string" } } } }
         }
       }
     },

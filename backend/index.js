@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const rateLimit = require('express-rate-limit');
 const swaggerUi = require('swagger-ui-express');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
 let app = express();
 
 app.use(cors({ origin: 'http://localhost:4200' })); // Allow Angular frontend
@@ -16,7 +18,13 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 dotenv.config();
-
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: 'http://localhost:4200',
+    methods: ['GET', 'POST'],
+  },
+});
 // Connect to MongoDB
 connectDB();
 
@@ -24,6 +32,23 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+// Make io accessible to routes
+app.set('socketio', io);
+
+// Socket.io connection
+io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
+
+  // Join article room
+  socket.on('joinArticle', (articleId) => {
+    socket.join(`article:${articleId}`);
+    console.log(`User ${socket.id} joined article:${articleId}`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
 
 require("./startup/routes")(app);
 
