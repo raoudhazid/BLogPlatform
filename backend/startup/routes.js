@@ -4,6 +4,7 @@ let swaggerUi = require("swagger-ui-express");
 const bodyParser = require("body-parser");
 const authRoutes = require('../routes/auth');
 const userRoutes = require('../routes/users');
+const articleRoutes = require('../routes/articles');
 // Routes
 
 
@@ -17,6 +18,8 @@ module.exports = function (app) {
   app.use(express.json());
   app.use('/api/auth', authRoutes);
   app.use('/api/users', userRoutes);
+  app.use('/api/articles', articleRoutes );
+
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   app.use(

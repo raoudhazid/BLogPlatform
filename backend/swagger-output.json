@@ -2,14 +2,11 @@
   "openapi": "3.0.3",
   "info": {
     "title": "MEAN Stack Technical Test API",
-    "description": "API for user management and authentication with JWT and role-based access control.",
+    "description": "API for user management, authentication, and article management with JWT and role-based access control.",
     "version": "1.0.0"
   },
   "servers": [
-    {
-      "url": "http://localhost:5001",
-      "description": "Local development server"
-    }
+    { "url": "http://localhost:5001", "description": "Local development server" }
   ],
   "paths": {
     "/api/auth/register": {
@@ -20,46 +17,14 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/RegisterRequest" }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": "User registered successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": { "type": "string", "example": "User registered" }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "User already exists",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
+          "201": { "description": "User registered successfully", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "User registered" } } } } } },
+          "400": { "description": "User already exists", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "500": { "description": "Server error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
         }
       }
     },
@@ -71,47 +36,14 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/LoginRequest" }
             }
           }
         },
         "responses": {
-          "200": {
-            "description": "Login successful, returns access and refresh tokens",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "accessToken": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." },
-                    "refreshToken": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid credentials",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
+          "200": { "description": "Login successful, returns access and refresh tokens", "content": { "application/json": { "schema": { "type": "object", "properties": { "accessToken": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }, "refreshToken": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." } } } } } },
+          "400": { "description": "Invalid credentials", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "500": { "description": "Server error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
         }
       }
     },
@@ -123,50 +55,14 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "refreshToken": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }
-                },
-                "required": ["refreshToken"]
-              }
+              "schema": { "type": "object", "properties": { "refreshToken": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." } }, "required": ["refreshToken"] }
             }
           }
         },
         "responses": {
-          "200": {
-            "description": "New access token generated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "accessToken": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "No refresh token provided",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Invalid refresh token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
+          "200": { "description": "New access token generated", "content": { "application/json": { "schema": { "type": "object", "properties": { "accessToken": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." } } } } } },
+          "401": { "description": "No refresh token provided", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "403": { "description": "Invalid refresh token", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
         }
       }
     },
@@ -176,72 +72,14 @@
         "tags": ["Users"],
         "security": [{ "BearerAuth": [] }],
         "parameters": [
-          {
-            "name": "role",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": ["Admin", "Editor", "Writer", "Reader"],
-              "example": "Editor"
-            },
-            "description": "Filter users by role"
-          }
+          { "name": "role", "in": "query", "required": false, "schema": { "type": "string", "enum": ["Admin", "Editor", "Writer", "Reader"], "example": "Editor" }, "description": "Filter users by role" }
         ],
         "responses": {
-          "200": {
-            "description": "List of users",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid role",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "No token provided or invalid token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Insufficient permissions",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
+          "200": { "description": "List of users", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/User" } } } } },
+          "400": { "description": "Invalid role", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "401": { "description": "No token provided or invalid token", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "403": { "description": "Insufficient permissions", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "500": { "description": "Server error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
         }
       }
     },
@@ -251,98 +89,106 @@
         "tags": ["Users"],
         "security": [{ "BearerAuth": [] }],
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "User ID"
-          }
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "User ID" }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "role": {
-                    "type": "string",
-                    "enum": ["Admin", "Editor", "Writer", "Reader"],
-                    "example": "Editor"
-                  }
-                },
-                "required": ["role"]
-              }
+              "schema": { "type": "object", "properties": { "role": { "type": "string", "enum": ["Admin", "Editor", "Writer", "Reader"], "example": "Editor" } }, "required": ["role"] }
             }
           }
         },
         "responses": {
-          "200": {
-            "description": "Role updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": { "type": "string", "example": "Role updated" }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid role",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "No token provided or invalid token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Insufficient permissions",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
+          "200": { "description": "Role updated successfully", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "Role updated" } } } } } },
+          "400": { "description": "Invalid role", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "401": { "description": "No token provided or invalid token", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "403": { "description": "Insufficient permissions", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "404": { "description": "User not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "500": { "description": "Server error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
+        }
+      }
+    },
+    "/api/articles": {
+      "post": {
+        "summary": "Create a new article",
+        "tags": ["Articles"],
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ArticleRequest" }
             }
           }
+        },
+        "responses": {
+          "201": { "description": "Article created successfully", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Article" } } } },
+          "401": { "description": "No token provided or invalid token", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "500": { "description": "Server error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
+        }
+      },
+      "get": {
+        "summary": "Get all articles",
+        "tags": ["Articles"],
+        "responses": {
+          "200": { "description": "List of articles", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Article" } } } } },
+          "500": { "description": "Server error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
+        }
+      }
+    },
+    "/api/articles/{id}": {
+      "get": {
+        "summary": "Get a single article",
+        "tags": ["Articles"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Article ID" }
+        ],
+        "responses": {
+          "200": { "description": "Article details", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Article" } } } },
+          "400": { "description": "Invalid article ID", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "404": { "description": "Article not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "500": { "description": "Server error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
+        }
+      },
+      "patch": {
+        "summary": "Update an article (Editors, Admins, or author if Writer)",
+        "tags": ["Articles"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Article ID" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ArticleRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Article updated successfully", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Article" } } } },
+          "400": { "description": "Invalid article ID", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "401": { "description": "No token provided or invalid token", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "403": { "description": "Insufficient permissions", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "404": { "description": "Article not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "500": { "description": "Server error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
+        }
+      },
+      "delete": {
+        "summary": "Delete an article (Admins only)",
+        "tags": ["Articles"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Article ID" }
+        ],
+        "responses": {
+          "200": { "description": "Article deleted successfully", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "Article deleted" } } } } } },
+          "400": { "description": "Invalid article ID", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "401": { "description": "No token provided or invalid token", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "403": { "description": "Insufficient permissions", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "404": { "description": "Article not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "500": { "description": "Server error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
         }
       }
     }
@@ -355,12 +201,7 @@
           "username": { "type": "string", "example": "johndoe" },
           "email": { "type": "string", "format": "email", "example": "johndoe@example.com" },
           "password": { "type": "string", "example": "password123" },
-          "role": {
-            "type": "string",
-            "enum": ["Admin", "Editor", "Writer", "Reader"],
-            "example": "Reader",
-            "default": "Reader"
-          }
+          "role": { "type": "string", "enum": ["Admin", "Editor", "Writer", "Reader"], "example": "Reader", "default": "Reader" }
         },
         "required": ["username", "email", "password"]
       },
@@ -378,11 +219,30 @@
           "_id": { "type": "string", "example": "507f1f77bcf86cd799439011" },
           "username": { "type": "string", "example": "johndoe" },
           "email": { "type": "string", "format": "email", "example": "johndoe@example.com" },
-          "role": {
-            "type": "string",
-            "enum": ["Admin", "Editor", "Writer", "Reader"],
-            "example": "Reader"
-          },
+          "role": { "type": "string", "enum": ["Admin", "Editor", "Writer", "Reader"], "example": "Reader" },
+          "createdAt": { "type": "string", "format": "date-time", "example": "2025-05-18T12:54:00Z" },
+          "updatedAt": { "type": "string", "format": "date-time", "example": "2025-05-18T12:54:00Z" }
+        }
+      },
+      "ArticleRequest": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "example": "My First Article" },
+          "content": { "type": "string", "example": "This is the content of the article." },
+          "image": { "type": "string", "example": "https://example.com/image.jpg" },
+          "tags": { "type": "array", "items": { "type": "string" }, "example": ["tech", "news"] }
+        },
+        "required": ["title", "content"]
+      },
+      "Article": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string", "example": "507f1f77bcf86cd799439012" },
+          "title": { "type": "string", "example": "My First Article" },
+          "content": { "type": "string", "example": "This is the content of the article." },
+          "image": { "type": "string", "example": "https://example.com/image.jpg" },
+          "tags": { "type": "array", "items": { "type": "string" }, "example": ["tech", "news"] },
+          "author": { "$ref": "#/components/schemas/User" },
           "createdAt": { "type": "string", "format": "date-time", "example": "2025-05-18T12:54:00Z" },
           "updatedAt": { "type": "string", "format": "date-time", "example": "2025-05-18T12:54:00Z" }
         }
