@@ -1,0 +1,7 @@
+<div class="fluid-container">
+    <ngb-carousel #carousel interval="1000" [pauseOnHover]="pauseOnHover" (slide)="onSlide($event)">
+        <ng-template ngbSlide *ngFor="let imgUrl of images">
+            <img src="{{ imgUrl }}" alt="Image" class="w-100 img-h" height="400px">
+        </ng-template>
+    </ngb-carousel>
+</div>

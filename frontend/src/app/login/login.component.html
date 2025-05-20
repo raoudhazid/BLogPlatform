@@ -1,0 +1,32 @@
+<div class="login-background">
+    <div class="container pt-5">
+        <div class="card mx-auto card-width">
+            <img class="card-img-top" src="../../assets/19.jpg">
+            <div class="card-img-overlay">
+                <p class="text-center login-heading">Login</p>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm)">
+                    <span class="red-error">{{ loginError }}</span>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Username</mat-label>
+                        <input matInput placeholder="Enter Username" formControlName="username" name="username"
+                            required>
+                        <mat-error *ngIf="loginForm.controls['username'].invalid">Required Field</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Password</mat-label>
+                        <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="Enter Password"
+                            formControlName="password" name="password" required>
+                        <mat-icon class="cursor-pointer" matSuffix (click)="hidePassword = !hidePassword">remove_red_eye
+                        </mat-icon>
+                        <mat-error *ngIf="loginForm.controls['password'].invalid">Required Field</mat-error>
+                    </mat-form-field>
+                    <div class="px-4">
+                        <button class="w-100" mat-raised-button color="primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
