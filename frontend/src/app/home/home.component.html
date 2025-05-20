@@ -1,0 +1,47 @@
+<div class="container-fluid">
+    <div class="row">
+        <div *ngFor="let blog of topBlogs,let i = index" class="col-md-4 pt-3 cursor-pointer">
+            <div [className]="cardBorder[i]">
+                <div class="card-header d-flex bg-white" (click)="showPost(blog._id)">
+                    <img src= '{{ blog?.postImage }}' width="50px" height="50px" class="rounded-circle align-text-top">
+                    <div class="text-truncate d-block pl-2 align-text-bottom">
+                        <a class="mb-0 text-primary" (click)="profilePage(blog.userId)">{{ blog?.postAuthor }}</a>
+                        <p class="mb-0">{{ blog?.postTitle }}</p>
+                        <p class="mb-0 text-muted">{{ blog?.publishedAt | amTimeAgo }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="p-3" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+    <div class="row">
+        <div class="col-md-8">
+            <mat-card *ngFor="let blogs of blogArray" class="mb-3">
+                <mat-card-header class="mb-2">
+                    <img mat-card-avatar class="profile-img" *ngIf="blogs?.userImage != null; else userImage" src='{{ blogs.userImage }}'>
+                    <mat-card-title class="profile-link mt-2"(click)="profilePage(blogs.userId)">{{ blogs.postAuthor }}</mat-card-title>
+                    <mat-card-subtitle class="mt-1">{{ blogs.publishedAt | amTimeAgo }}</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image *ngIf="blogs.postImage != null" src="{{ blogs.postImage }}" alt="">
+                <mat-card-content>
+                    <b class="post-title">{{ blogs.postTitle }}</b>
+                    <p class="post-content">{{ (blogs.postContent?.length > 195)? blogs.postContent.substring(0,195)+'.....' : blogs.postContent }}</p>
+                    <div class="d-flex justify-content-between">
+                        <a [routerLink]="['/post',blogs._id]">
+                            <button mat-raised-button color="accent">Read More</button>
+                        </a>
+                        <p class="comment-section">{{ blogs.comments }} Comments</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-md-4">
+            <sidebar></sidebar>
+        </div>
+    </div>
+</div>
+
+<ng-template #userImage>
+    <img mat-card-avatar class="profile-img" src="{{ profileService.defaultProfileImage }}">
+</ng-template>
